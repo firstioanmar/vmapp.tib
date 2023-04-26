@@ -8,41 +8,30 @@ import formOutline from '@iconify/icons-mdi/form-outline';
 import outlineBusinessCenter from '@iconify/icons-ic/outline-business-center';
 import { alpha, styled } from '@material-ui/core/styles';
 import MaterialReactTable from 'material-react-table';
-import { Box, Button } from '@mui/material';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import axios from 'axios';
 // components
 import Page from '../../components/Page';
 
 const columns = [
   {
-    accessorKey: 'id',
-    header: 'ID',
-    size: 40
+    accessorKey: 'prospek_insd',
+    header: 'Client Name'
   },
   {
-    accessorKey: 'firstName',
-    header: 'First Name',
-    size: 120
+    accessorKey: 'slip_no',
+    header: 'Slip No'
   },
   {
-    accessorKey: 'lastName',
-    header: 'Last Name',
-    size: 120
+    accessorKey: 'cob_code',
+    header: 'COB'
   },
   {
-    accessorKey: 'company',
-    header: 'Company',
-    size: 300
+    accessorKey: 'created_at',
+    header: 'Created At'
   },
   {
-    accessorKey: 'city',
-    header: 'City'
-  },
-  {
-    accessorKey: 'country',
-    header: 'Country',
-    size: 220
+    accessorKey: 'thkName',
+    header: 'Tehnik By'
   }
 ];
 
@@ -77,10 +66,13 @@ export default function GeneralAnalytics() {
 
   useEffect(() => {
     axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
-    axios.get('https://vm-service.tib.co.id/api/v1/getListPosting').then((response) => {
-      setDatatable(response.data);
+    axios.get('https://vm-service.tib.co.id/api/v1/getListData').then((response) => {
+      setDatatable(response.data.data);
     });
-  });
+  }, []);
+
+  console.log(datatable);
+
   return (
     <Page title="Dashboard | Virtual Market">
       <Container maxWidth="xl">
@@ -126,6 +118,7 @@ export default function GeneralAnalytics() {
               data={datatable}
               enableRowSelection
               positionToolbarAlertBanner="bottom"
+              initialState={{ density: 'compact' }}
             />
           </Grid>
         </Grid>

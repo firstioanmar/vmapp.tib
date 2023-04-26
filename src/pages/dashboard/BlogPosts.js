@@ -1,116 +1,92 @@
-import { orderBy } from 'lodash';
-import { Icon } from '@iconify/react';
-import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink } from 'react-router-dom';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { useEffect, useCallback, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 // material
-import { Box, Grid, Button, Skeleton, Container, Stack } from '@material-ui/core';
-// redux
-import { useDispatch, useSelector } from '../../redux/store';
-import { getPostsInitial, getMorePosts } from '../../redux/slices/blog';
-// hooks
-import useSettings from '../../hooks/useSettings';
-// routes
-import { PATH_DASHBOARD } from '../../routes/paths';
+import { Grid, Container, Typography, Card } from '@material-ui/core';
+import { Icon } from '@iconify/react';
+import circleToConfirmCircleTransition from '@iconify/icons-line-md/circle-to-confirm-circle-transition';
+import formOutline from '@iconify/icons-mdi/form-outline';
+import outlineBusinessCenter from '@iconify/icons-ic/outline-business-center';
+import { alpha, styled } from '@material-ui/core/styles';
+import MaterialReactTable from 'material-react-table';
+import axios from 'axios';
 // components
 import Page from '../../components/Page';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
-import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../../components/_dashboard/blog';
 
-// ----------------------------------------------------------------------
-
-const SORT_OPTIONS = [
-  { value: 'latest', label: 'Latest' },
-  { value: 'popular', label: 'Popular' },
-  { value: 'oldest', label: 'Oldest' }
+const columns = [
+  {
+    accessorKey: 'prospek_insd',
+    header: 'Client Name'
+  },
+  {
+    accessorKey: 'slip_no',
+    header: 'Slip No'
+  },
+  {
+    accessorKey: 'cob_code',
+    header: 'COB'
+  },
+  {
+    accessorKey: 'created_at',
+    header: 'Created At'
+  },
+  {
+    accessorKey: 'thkName',
+    header: 'Tehnik By'
+  }
 ];
 
+const RootStyle = styled(Card)(({ theme }) => ({
+  boxShadow: 'none',
+  textAlign: 'center',
+  padding: theme.spacing(5, 0),
+  color: theme.palette.primary.darker,
+  backgroundColor: theme.palette.primary.lighter
+}));
+
+const IconWrapperStyle = styled('div')(({ theme }) => ({
+  margin: 'auto',
+  display: 'flex',
+  borderRadius: '50%',
+  alignItems: 'center',
+  width: theme.spacing(8),
+  height: theme.spacing(8),
+  justifyContent: 'center',
+  marginBottom: theme.spacing(3),
+  color: theme.palette.primary.dark,
+  backgroundImage: `linear-gradient(135deg, ${alpha(theme.palette.primary.dark, 0)} 0%, ${alpha(
+    theme.palette.primary.dark,
+    0.24
+  )} 100%)`
+}));
+
 // ----------------------------------------------------------------------
 
-const applySort = (posts, sortBy) => {
-  if (sortBy === 'latest') {
-    return orderBy(posts, ['createdAt'], ['desc']);
-  }
-  if (sortBy === 'oldest') {
-    return orderBy(posts, ['createdAt'], ['asc']);
-  }
-  if (sortBy === 'popular') {
-    return orderBy(posts, ['view'], ['desc']);
-  }
-  return posts;
-};
-
-const SkeletonLoad = (
-  <Grid container spacing={3} sx={{ mt: 2 }}>
-    {[...Array(4)].map((_, index) => (
-      <Grid item xs={12} md={3} key={index}>
-        <Skeleton variant="rectangular" width="100%" sx={{ height: 200, borderRadius: 2 }} />
-        <Box sx={{ display: 'flex', mt: 1.5 }}>
-          <Skeleton variant="circular" sx={{ width: 40, height: 40 }} />
-          <Skeleton variant="text" sx={{ mx: 1, flexGrow: 1 }} />
-        </Box>
-      </Grid>
-    ))}
-  </Grid>
-);
-
 export default function BlogPosts() {
-  const { themeStretch } = useSettings();
-  const dispatch = useDispatch();
-  const [filters, setFilters] = useState('latest');
-  const { posts, hasMore, index, step } = useSelector((state) => state.blog);
-  const sortedPosts = applySort(posts, filters);
-  const onScroll = useCallback(() => dispatch(getMorePosts()), [dispatch]);
+  const [datatable, setDatatable] = useState([]);
 
   useEffect(() => {
-    dispatch(getPostsInitial(index, step));
-  }, [dispatch, index, step]);
+    axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
+    axios.get('https://vm-service.tib.co.id/api/v1/getListPosting').then((response) => {
+      setDatatable(response.data.data);
+    });
+  }, []);
 
-  const handleChangeSort = (event) => {
-    setFilters(event.target.value);
-  };
+  console.log(datatable);
 
   return (
-    <Page title="Blog: Posts | Minimal-UI">
-      <Container maxWidth={themeStretch ? false : 'lg'}>
-        <HeaderBreadcrumbs
-          heading="Blog"
-          links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Blog', href: PATH_DASHBOARD.blog.root },
-            { name: 'Posts' }
-          ]}
-          action={
-            <Button
-              variant="contained"
-              component={RouterLink}
-              to={PATH_DASHBOARD.blog.newPost}
-              startIcon={<Icon icon={plusFill} />}
-            >
-              New Post
-            </Button>
-          }
-        />
-
-        <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-          <BlogPostsSearch />
-          <BlogPostsSort query={filters} options={SORT_OPTIONS} onSort={handleChangeSort} />
-        </Stack>
-
-        <InfiniteScroll
-          next={onScroll}
-          hasMore={hasMore}
-          loader={SkeletonLoad}
-          dataLength={posts.length}
-          style={{ overflow: 'inherit' }}
-        >
-          <Grid container spacing={3}>
-            {sortedPosts.map((post, index) => (
-              <BlogPostCard key={post.id} post={post} index={index} />
-            ))}
+    <Page title="Dashboard | Virtual Market">
+      <Container maxWidth="xl">
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={12} md={12}>
+            <MaterialReactTable
+              columns={columns}
+              data={datatable}
+              enableRowSelection
+              positionToolbarAlertBanner="bottom"
+              initialState={{ density: 'compact' }}
+            />
           </Grid>
-        </InfiniteScroll>
+        </Grid>
       </Container>
     </Page>
   );
