@@ -1,0 +1,106 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Form } from 'formik';
+
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import { AES } from 'crypto-js';
+
+import { Icon } from '@iconify/react';
+import eyeFill from '@iconify/icons-eva/eye-fill';
+import closeFill from '@iconify/icons-eva/close-fill';
+import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
+// material
+import {
+  Link,
+  Stack,
+  Alert,
+  Checkbox,
+  TextField,
+  IconButton,
+  InputAdornment,
+  FormControlLabel
+} from '@material-ui/core';
+import { LoadingButton } from '@material-ui/lab';
+// ----------------------------------------------------------------------
+
+export default function LoginForm() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [validation, setValidation] = useState([]);
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const loginHandler = async (e) => {
+    // stop browser's default behavior of reloading on form submit
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append('email', username);
+    formData.append('password', password);
+
+    await axios
+      .post('https://vm-service.tib.co.id/api/loginUser', formData)
+      .then((response) => {
+        // Encrypt
+        const cypher = AES.encrypt(response.data.token, 'Tugubro@1976&Hyundai').toString();
+        const cyphertext = AES.encrypt(response.data.role[0].role_id.toString(), 'R@TuguBro1976').toString();
+
+        // set token on js-cookie
+        Cookies.set('__hytkn', cypher);
+        Cookies.set('!R', cyphertext);
+
+        // redirect to dashboard
+        navigate('/dashboard');
+      })
+      .catch((error) => {
+        setValidation(error.response.data);
+      });
+  };
+
+  const handleShowPassword = () => {
+    setShowPassword((show) => !show);
+  };
+
+  return (
+    <form onSubmit={loginHandler}>
+      <Stack spacing={3}>
+        <TextField
+          fullWidth
+          autoComplete="username"
+          type="email"
+          label="Email address"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+
+        <TextField
+          fullWidth
+          autoComplete="current-password"
+          type={showPassword ? 'text' : 'password'}
+          label="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleShowPassword} edge="end">
+                  <Icon icon={showPassword ? eyeFill : eyeOffFill} />
+                </IconButton>
+              </InputAdornment>
+            )
+          }}
+        />
+      </Stack>
+
+      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+        <FormControlLabel control={<Checkbox checked />} label="Remember me" />
+      </Stack>
+
+      <LoadingButton fullWidth size="large" type="submit" variant="contained">
+        Login
+      </LoadingButton>
+    </form>
+  );
+}
