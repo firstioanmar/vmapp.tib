@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // material
 import { Grid, Container, Typography, Card } from '@material-ui/core';
@@ -62,6 +63,7 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function GeneralAnalytics() {
+  const navigate = useNavigate();
   const [datatable, setDatatable] = useState([]);
 
   useEffect(() => {
@@ -70,8 +72,6 @@ export default function GeneralAnalytics() {
       setDatatable(response.data.data);
     });
   }, []);
-
-  console.log(datatable);
 
   return (
     <Page title="Dashboard | Virtual Market">
@@ -116,9 +116,16 @@ export default function GeneralAnalytics() {
             <MaterialReactTable
               columns={columns}
               data={datatable}
-              enableRowSelection
               positionToolbarAlertBanner="bottom"
               initialState={{ density: 'compact' }}
+              muiTableBodyRowProps={({ row }) => ({
+                onClick: () => {
+                  navigate(`/dashboard/detail/${row.original.id}`);
+                },
+                sx: {
+                  cursor: 'pointer'
+                }
+              })}
             />
           </Grid>
         </Grid>

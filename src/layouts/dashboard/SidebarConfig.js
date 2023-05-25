@@ -1,7 +1,6 @@
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // components
-import Label from '../../components/Label';
 import SvgIconStyle from '../../components/SvgIconStyle';
 
 // ----------------------------------------------------------------------
@@ -36,7 +35,7 @@ const sidebarConfig = [
         path: PATH_DASHBOARD.general.app,
         icon: ICONS.dashboard
       },
-      { title: 'List posting penawaran', path: PATH_DASHBOARD.blog.root, icon: ICONS.cart },
+      { title: 'List posting penawaran', path: PATH_DASHBOARD.general.listPosting, icon: ICONS.cart },
       { title: 'chat', path: PATH_DASHBOARD.chat.root, icon: ICONS.chat }
     ]
   }

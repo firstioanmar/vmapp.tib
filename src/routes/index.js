@@ -1,7 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
 // layouts
-import MainLayout from '../layouts/main';
 import DashboardLayout from '../layouts/dashboard';
 import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 // guards
@@ -96,6 +95,8 @@ export default function Router() {
           children: [
             { path: '/', element: <Navigate to="/dashboard/app" replace /> },
             { path: 'app', element: <GeneralAnalytics /> },
+            { path: 'list/posting', element: <BlogPosts /> },
+            { path: 'detail/:detailId', element: <DetailPage /> },
             { path: 'ecommerce', element: <GeneralEcommerce /> },
             { path: 'banking', element: <GeneralBanking /> },
             { path: 'booking', element: <GeneralBooking /> },
@@ -232,7 +233,7 @@ const Register = Loadable(lazy(() => import('../pages/authentication/Register'))
 const ResetPassword = Loadable(lazy(() => import('../pages/authentication/ResetPassword')));
 const VerifyCode = Loadable(lazy(() => import('../pages/authentication/VerifyCode')));
 // Dashboard
-const GeneralApp = Loadable(lazy(() => import('../pages/dashboard/GeneralApp')));
+const DetailPage = Loadable(lazy(() => import('../pages/dashboard/DetailPage')));
 const GeneralEcommerce = Loadable(lazy(() => import('../pages/dashboard/GeneralEcommerce')));
 const GeneralAnalytics = Loadable(lazy(() => import('../pages/dashboard/GeneralAnalytics')));
 const GeneralBanking = Loadable(lazy(() => import('../pages/dashboard/GeneralBanking')));
