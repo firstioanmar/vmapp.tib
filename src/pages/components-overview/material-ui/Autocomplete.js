@@ -30,7 +30,7 @@ export default function AutocompleteComponent() {
   const [inputValue, setInputValue] = useState('');
 
   return (
-    <RootStyle title="Components: Autocomplete | Minimal-UI">
+    <RootStyle title="Components: Autocomplete | Virttual Market">
       <Box
         sx={{
           pt: 6,

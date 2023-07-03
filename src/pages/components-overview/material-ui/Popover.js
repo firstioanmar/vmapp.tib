@@ -46,7 +46,7 @@ export default function PopoversComponent() {
   };
 
   return (
-    <RootStyle title="Components: Popover | Minimal-UI">
+    <RootStyle title="Components: Popover | Virttual Market">
       <Box
         sx={{
           pt: 6,

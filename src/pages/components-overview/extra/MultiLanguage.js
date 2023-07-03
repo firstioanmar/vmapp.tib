@@ -44,7 +44,7 @@ export default function MultiLanguage() {
   };
 
   return (
-    <RootStyle title="Components: Multi Language | Minimal-UI">
+    <RootStyle title="Components: Multi Language | Virttual Market">
       <Box
         sx={{
           pt: 6,

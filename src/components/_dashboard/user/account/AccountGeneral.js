@@ -1,28 +1,12 @@
 import * as Yup from 'yup';
 import { useSnackbar } from 'notistack5';
-import { useCallback } from 'react';
 import { Form, FormikProvider, useFormik } from 'formik';
 // material
-import {
-  Box,
-  Grid,
-  Card,
-  Stack,
-  Switch,
-  TextField,
-  FormControlLabel,
-  Typography,
-  FormHelperText
-} from '@material-ui/core';
+import { Box, Grid, Card, Stack, TextField } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
 // hooks
 import useAuth from '../../../../hooks/useAuth';
 import useIsMountedRef from '../../../../hooks/useIsMountedRef';
-import { UploadAvatar } from '../../../upload';
-// utils
-import { fData } from '../../../../utils/formatNumber';
-//
-import countries from '../countries';
 
 // ----------------------------------------------------------------------
 
@@ -38,17 +22,9 @@ export default function AccountGeneral() {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      displayName: user.displayName || '',
+      displayName: user.username || '',
       email: user.email,
-      photoURL: user.photoURL,
-      phoneNumber: user.phoneNumber,
-      country: user.country,
-      address: user.address,
-      state: user.state,
-      city: user.city,
-      zipCode: user.zipCode,
-      about: user.about,
-      isPublic: user.isPublic
+      insName: user.ins_name
     },
 
     validationSchema: UpdateUserSchema,
@@ -68,64 +44,13 @@ export default function AccountGeneral() {
     }
   });
 
-  const { values, errors, touched, isSubmitting, handleSubmit, getFieldProps, setFieldValue } = formik;
-
-  const handleDrop = useCallback(
-    (acceptedFiles) => {
-      const file = acceptedFiles[0];
-      if (file) {
-        setFieldValue('photoURL', {
-          ...file,
-          preview: URL.createObjectURL(file)
-        });
-      }
-    },
-    [setFieldValue]
-  );
+  const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
 
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
-            <Card sx={{ py: 10, px: 3, textAlign: 'center' }}>
-              <UploadAvatar
-                accept="image/*"
-                file={values.photoURL}
-                maxSize={3145728}
-                onDrop={handleDrop}
-                error={Boolean(touched.photoURL && errors.photoURL)}
-                caption={
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      mt: 2,
-                      mx: 'auto',
-                      display: 'block',
-                      textAlign: 'center',
-                      color: 'text.secondary'
-                    }}
-                  >
-                    Allowed *.jpeg, *.jpg, *.png, *.gif
-                    <br /> max size of {fData(3145728)}
-                  </Typography>
-                }
-              />
-
-              <FormHelperText error sx={{ px: 2, textAlign: 'center' }}>
-                {touched.photoURL && errors.photoURL}
-              </FormHelperText>
-
-              <FormControlLabel
-                control={<Switch {...getFieldProps('isPublic')} color="primary" />}
-                labelPlacement="start"
-                label="Public Profile"
-                sx={{ mt: 5 }}
-              />
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={12}>
             <Card sx={{ p: 3 }}>
               <Stack spacing={{ xs: 2, md: 3 }}>
                 <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
@@ -134,37 +59,22 @@ export default function AccountGeneral() {
                 </Stack>
 
                 <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-                  <TextField fullWidth label="Phone Number" {...getFieldProps('phoneNumber')} />
-                  <TextField fullWidth label="Address" {...getFieldProps('address')} />
-                </Stack>
-
-                <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
                   <TextField
                     select
                     fullWidth
-                    label="Country"
-                    placeholder="Country"
-                    {...getFieldProps('country')}
+                    label="Insurance"
+                    placeholder="Insurance"
+                    {...getFieldProps('insName')}
                     SelectProps={{ native: true }}
                     error={Boolean(touched.country && errors.country)}
-                    helperText={touched.country && errors.country}
+                    helperText={user.ins_name}
                   >
                     <option value="" />
-                    {countries.map((option) => (
-                      <option key={option.code} value={option.label}>
-                        {option.label}
-                      </option>
-                    ))}
+                    <option key={1} value={user.ins_name}>
+                      {user.ins_name}
+                    </option>
                   </TextField>
-                  <TextField fullWidth label="State/Region" {...getFieldProps('state')} />
                 </Stack>
-
-                <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-                  <TextField fullWidth label="City" {...getFieldProps('city')} />
-                  <TextField fullWidth label="Zip/Code" {...getFieldProps('zipCode')} />
-                </Stack>
-
-                <TextField {...getFieldProps('about')} fullWidth multiline minRows={4} maxRows={4} label="About" />
               </Stack>
 
               <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>

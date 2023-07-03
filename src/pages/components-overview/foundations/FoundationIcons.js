@@ -43,7 +43,7 @@ const style = {
 
 export default function FoundationIcons() {
   return (
-    <RootStyle title="Foundations: Icons | Minimal-UI">
+    <RootStyle title="Foundations: Icons | Virttual Market">
       <Box
         sx={{
           pt: 6,

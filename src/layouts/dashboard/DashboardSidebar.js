@@ -19,6 +19,7 @@ import NavSection from '../../components/NavSection';
 import { MHidden } from '../../components/@material-extend';
 //
 import sidebarConfig from './SidebarConfig';
+import sidebarConfigIns from './SidebarConfigIns';
 
 // ----------------------------------------------------------------------
 
@@ -143,7 +144,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         )}
       </Stack>
 
-      <NavSection navConfig={sidebarConfig} isShow={!isCollapse} />
+      <NavSection navConfig={user?.ins_name === 'TIB ADMIN' ? sidebarConfig : sidebarConfigIns} isShow={!isCollapse} />
 
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>

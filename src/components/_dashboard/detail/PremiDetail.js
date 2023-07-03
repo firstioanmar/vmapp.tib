@@ -4,10 +4,8 @@ import { useState } from 'react';
 import { Grid, Card, CardHeader, IconButton, Collapse, Table, TableBody, TableRow, TableCell } from '@material-ui/core';
 import { Icon } from '@iconify/react';
 
-export default function PremiTotal({ premi }) {
+export default function PremiDetail() {
   const [expandPremiTotal, setExpandPRemiTOtal] = useState(true);
-
-  console.log(premi);
 
   return (
     <Grid container spacing={3}>
@@ -23,7 +21,7 @@ export default function PremiTotal({ premi }) {
               </IconButton>
             }
             titleTypographyProps={{ variant: 'h3' }}
-            title="Premi Total"
+            title="Premi Detail"
             sx={{ mb: 2 }}
           />
           <Collapse in={expandPremiTotal}>

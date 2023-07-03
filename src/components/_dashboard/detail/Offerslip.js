@@ -24,24 +24,27 @@ import {
 import { Icon } from '@iconify/react';
 import moment from 'moment-timezone';
 import useSettings from '../../../hooks/useSettings';
-import { AccountGeneral, AccountChangePassword } from '../user/account';
+import PremiTotal from './PremiTotal';
+import PremiDetail from './PremiDetail';
 
-export default function Offerslip({ rd, rate, si }) {
+export default function Offerslip({ rd, rate, si, premi }) {
   const { themeMode } = useSettings();
   const [currentTab, setCurrentTab] = useState('premi_total');
   const [expandRiskDetail, setExpandRiskDetail] = useState(true);
   const [expandRate, setExpandRate] = useState(true);
 
+  console.log(premi);
+
   const PREMI_TABS = [
     {
       value: 'premi_total',
       icon: <Icon icon="material-symbols:border-all" width={20} height={20} />,
-      component: <AccountChangePassword />
+      component: <PremiTotal premi={premi.premi_total} />
     },
     {
       value: 'premi_detail',
       icon: <Icon icon="material-symbols:read-more" width={20} height={20} />,
-      component: <AccountGeneral />
+      component: <PremiDetail />
     }
   ];
 
@@ -271,7 +274,9 @@ export default function Offerslip({ rd, rate, si }) {
                         <TableCell component="th" scope="row">
                           FLEXAS
                         </TableCell>
-                        <TableCell align="right">{rate.flexas_rate} %</TableCell>
+                        <TableCell align="right">
+                          {rate.flexas_rate.toLocaleString(undefined, { minimumFractionDigits: 2 })} %
+                        </TableCell>
                       </TableRow>
                     ) : (
                       false
@@ -327,36 +332,28 @@ export default function Offerslip({ rd, rate, si }) {
               <Grid item xs={12} sm={6} md={6}>
                 <Table>
                   <TableBody>
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        FLEXAS
-                      </TableCell>
-                      <TableCell align="right">{rate.flexas_rate} %</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        RSMDCC
-                      </TableCell>
-                      <TableCell align="right">{rate.rsmd_rate} %</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        CC
-                      </TableCell>
-                      <TableCell align="right">{rate.flexas_rate} %</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        TSFWD
-                      </TableCell>
-                      <TableCell align="right">{rate.flexas_rate} %</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        OTHERS
-                      </TableCell>
-                      <TableCell align="right">{rate.flexas_rate} %</TableCell>
-                    </TableRow>
+                    {rate.eq_rate != null ? (
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          EQ RATE
+                        </TableCell>
+                        <TableCell align="right">{rate.eq_rate} %</TableCell>
+                      </TableRow>
+                    ) : (
+                      false
+                    )}
+                    {rate.par_scale_rate != null ? (
+                      <TableRow>
+                        <TableCell component="th" scope="row  b ">
+                          PAR SCALE RATE
+                        </TableCell>
+                        <TableCell align="right">
+                          {rate.par_scale_rate.toLocaleString(undefined, { minimumFractionDigits: 2 })} %
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      false
+                    )}
                   </TableBody>
                 </Table>
               </Grid>
