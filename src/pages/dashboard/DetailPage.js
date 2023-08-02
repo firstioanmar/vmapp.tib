@@ -10,6 +10,7 @@ import axios from 'axios';
 
 // material
 import { Container, Tab, Box, Tabs, Stack } from '@material-ui/core';
+import useAuth from '../../hooks/useAuth';
 // components
 import Page from '../../components/Page';
 import { Offerslip, TemporaryConfirmation, FinalConfirmation, FinalSecurity } from '../../components/_dashboard/detail';
@@ -18,48 +19,66 @@ import { Offerslip, TemporaryConfirmation, FinalConfirmation, FinalSecurity } fr
 
 export default function DetailPage() {
   const [currentTab, setCurrentTab] = useState('offerslip');
-  const [riskDetail, setRiskDetail] = useState([]);
-  const [rate, setRate] = useState([]);
+  const { user } = useAuth();
+  const [data, setData] = useState([]);
   const [sumInsured, setSumInsured] = useState([]);
-  const [premi, setPremi] = useState([]);
+  const [tsi, setTsi] = useState([]);
+  const [temporaryIns, setTemporaryIns] = useState([]);
+  const [finalInsConf, setFinalInsConf] = useState([]);
+  const [finalSecurity, setFinalSecurity] = useState([]);
+  const [rate, setRate] = useState([]);
 
-  const { detailId } = useParams();
+  const { reqIdReff } = useParams();
 
   useEffect(() => {
-    axios
-      .get(`https://vm-service.tib.co.id/api/v1/getDetail?id=${detailId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    const fetchData = async () => {
+      try {
+        const detail = await axios.get('https://vm-service.tib.co.id/api/placing/detail-data', {
+          params: { reqId_reff: reqIdReff },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.access_token}`
+          }
+        });
+
+        const dataDetail = await detail.data;
+        if (dataDetail.status === 200) {
+          setData(dataDetail.data);
+          setSumInsured(dataDetail.data.sumInsured);
+          setTsi(dataDetail.data.tsi);
+          setTemporaryIns(dataDetail.data.temporaryIns);
+          setFinalInsConf(dataDetail.data.finalInsConf);
+          setFinalSecurity(dataDetail.data.finalSecurity);
+          setRate(dataDetail.data.rate);
         }
-      })
-      .then((response) => {
-        setRiskDetail(response.data.detail_os.risk_detail[0]);
-        setRate(response.data.detail_os.rate[0]);
-        setSumInsured(response.data.detail_os.sum_insured);
-        setPremi(response.data.detail_os.premi);
-      });
-  }, [detailId]);
+      } catch (error) {
+        // Check for token expired error (example: HTTP 401 Unauthorized)
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [user, reqIdReff]);
 
   const ACCOUNT_TABS = [
     {
       value: 'offerslip',
       icon: <Icon icon={roundReceipt} width={20} height={20} />,
-      component: <Offerslip rd={riskDetail} rate={rate} si={sumInsured} premi={premi} />
+      component: <Offerslip data={data} sumInsured={sumInsured} tsi={tsi} rate={rate} />
     },
     {
       value: 'temporary_confirmation',
       icon: <Icon icon={roundTimer} width={20} height={20} />,
-      component: <TemporaryConfirmation />
+      component: <TemporaryConfirmation temporaryIns={temporaryIns} />
     },
     {
       value: 'final_confirmation',
       icon: <Icon icon={roundCheckCircle} width={20} height={20} />,
-      component: <FinalConfirmation />
+      component: <FinalConfirmation finalInsConf={finalInsConf} />
     },
     {
       value: 'final_security',
       icon: <Icon icon={roundSecurity} width={20} height={20} />,
-      component: <FinalSecurity />
+      component: <FinalSecurity finalSecurity={finalSecurity} />
     }
   ];
 

@@ -95,7 +95,7 @@ export default function BookingCustomerReviews() {
   };
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader
         title="Customer Reviews"
         subheader={`${MOCK_REVIEWS.length} Reviews`}

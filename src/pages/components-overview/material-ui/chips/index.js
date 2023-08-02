@@ -40,7 +40,7 @@ export default function ChipsComponent() {
       <Container maxWidth="lg">
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
-            <Card>
+            <Card variant="outlined">
               <CardHeader title="Filled" />
               <CardContent>
                 <ChipFilled />
@@ -49,7 +49,7 @@ export default function ChipsComponent() {
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <Card>
+            <Card variant="outlined">
               <CardHeader title="Outlined" />
               <CardContent>
                 <ChipOutlined />

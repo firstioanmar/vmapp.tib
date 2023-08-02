@@ -27,7 +27,7 @@ export default function ProfileAbout({ profile }) {
   const { quote, country, email, role, company, school } = profile;
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title="About" />
 
       <Stack spacing={2} sx={{ p: 3 }}>

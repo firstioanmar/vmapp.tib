@@ -46,7 +46,7 @@ export default function Carousel() {
       <Container maxWidth="lg">
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
-            <Card>
+            <Card variant="outlined">
               <CardHeader title="Carousel Basic 1" />
               <CardContent>
                 <CarouselBasic1 />
@@ -55,7 +55,7 @@ export default function Carousel() {
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <Card>
+            <Card variant="outlined">
               <CardHeader title="Carousel Basic 2" />
               <CardContent>
                 <CarouselBasic2 />
@@ -64,7 +64,7 @@ export default function Carousel() {
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <Card>
+            <Card variant="outlined">
               <CardHeader title="Carousel Basic 3" />
               <CardContent>
                 <CarouselBasic3 />
@@ -73,7 +73,7 @@ export default function Carousel() {
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <Card>
+            <Card variant="outlined">
               <CardHeader title="Carousel Basic 4" />
               <CardContent>
                 <CarouselBasic4 />
@@ -82,7 +82,7 @@ export default function Carousel() {
           </Grid>
 
           <Grid item xs={12}>
-            <Card>
+            <Card variant="outlined">
               <CardHeader title="Carousel Thumbnail" />
               <CardContent>
                 <CarouselThumbnail />
@@ -91,7 +91,7 @@ export default function Carousel() {
           </Grid>
 
           <Grid item xs={12}>
-            <Card>
+            <Card variant="outlined">
               <CardHeader title="Carousel Center Mode" />
               <CardContent>
                 <CarouselCenterMode />
@@ -100,7 +100,7 @@ export default function Carousel() {
           </Grid>
 
           <Grid item xs={12}>
-            <Card>
+            <Card variant="outlined">
               <CardHeader title="Carousel Animation" />
               <CardContent>
                 <CarouselAnimation />

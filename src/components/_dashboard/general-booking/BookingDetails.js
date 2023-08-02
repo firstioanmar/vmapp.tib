@@ -130,7 +130,7 @@ export default function BookingDetails() {
 
   return (
     <>
-      <Card>
+      <Card variant="outlined">
         <CardHeader title="Booking Details" sx={{ mb: 3 }} />
         <Scrollbar>
           <TableContainer sx={{ minWidth: 720 }}>

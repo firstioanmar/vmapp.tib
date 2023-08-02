@@ -80,7 +80,7 @@ export default function EcommerceSaleByGender() {
   });
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title="Sale By Gender" />
       <ChartWrapperStyle dir="ltr">
         <ReactApexChart type="radialBar" series={CHART_DATA} options={chartOptions} height={310} />

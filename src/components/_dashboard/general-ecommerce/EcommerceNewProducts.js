@@ -96,7 +96,7 @@ export default function EcommerceNewProducts() {
   };
 
   return (
-    <Card>
+    <Card variant="outlined">
       <Slider {...settings}>
         {PRODUCTS.map((item) => (
           <CarouselItem key={item.name} item={item} />

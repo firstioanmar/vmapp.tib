@@ -117,7 +117,7 @@ export default function AppNewInvoice() {
   const theme = useTheme();
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title="New Invoice" sx={{ mb: 3 }} />
       <Scrollbar>
         <TableContainer sx={{ minWidth: 720 }}>

@@ -5,15 +5,12 @@ import menu2Fill from '@iconify/icons-eva/menu-2-fill';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 // material
 import { alpha, styled } from '@material-ui/core/styles';
-import { Box, Link, Stack, Drawer, Tooltip, Typography, CardActionArea } from '@material-ui/core';
+import { Box, Stack, Drawer, Tooltip, CardActionArea } from '@material-ui/core';
 // hooks
 import useAuth from '../../hooks/useAuth';
 import useCollapseDrawer from '../../hooks/useCollapseDrawer';
-// routes
-import { PATH_DASHBOARD } from '../../routes/paths';
 // components
 import Logo from '../../components/Logo';
-import MyAvatar from '../../components/MyAvatar';
 import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 import { MHidden } from '../../components/@material-extend';
@@ -33,14 +30,6 @@ const RootStyle = styled('div')(({ theme }) => ({
       duration: theme.transitions.duration.complex
     })
   }
-}));
-
-const AccountStyle = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(2, 2.5),
-  borderRadius: theme.shape.borderRadiusSm,
-  backgroundColor: theme.palette.grey[500_12]
 }));
 
 // ----------------------------------------------------------------------
@@ -124,27 +113,9 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             {!isCollapse && <IconCollapse onToggleCollapse={onToggleCollapse} collapseClick={collapseClick} />}
           </MHidden>
         </Stack>
-
-        {isCollapse ? (
-          <MyAvatar sx={{ mx: 'auto', mb: 2 }} />
-        ) : (
-          <Link underline="none" component={RouterLink} to={PATH_DASHBOARD.user.account}>
-            <AccountStyle>
-              <MyAvatar />
-              <Box sx={{ ml: 2 }}>
-                <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                  {user?.username}
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  {user?.ins_name}
-                </Typography>
-              </Box>
-            </AccountStyle>
-          </Link>
-        )}
       </Stack>
 
-      <NavSection navConfig={user?.ins_name === 'TIB ADMIN' ? sidebarConfig : sidebarConfigIns} isShow={!isCollapse} />
+      <NavSection navConfig={user?.ins_id === 0 ? sidebarConfig : sidebarConfigIns} isShow={!isCollapse} />
 
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>

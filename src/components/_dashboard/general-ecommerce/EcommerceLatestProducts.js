@@ -84,7 +84,7 @@ function ProductItem({ product }) {
 
 export default function EcommerceLatestProducts() {
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title="Latest Products" />
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>

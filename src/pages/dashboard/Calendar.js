@@ -167,7 +167,7 @@ export default function Calendar() {
           }
         />
 
-        <Card>
+        <Card variant="outlined">
           <CalendarStyle>
             <CalendarToolbar
               date={date}

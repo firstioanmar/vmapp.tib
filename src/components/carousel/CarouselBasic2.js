@@ -67,7 +67,7 @@ export default function CarouselBasic2() {
   };
 
   return (
-    <Card>
+    <Card variant="outlined">
       <Slider ref={carouselRef} {...settings}>
         {MOCK_CAROUSELS.map((item) => (
           <CarouselItem key={item.title} item={item} />

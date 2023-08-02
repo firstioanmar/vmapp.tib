@@ -28,14 +28,16 @@ const sidebarConfig = [
   // GENERAL
   // ----------------------------------------------------------------------
   {
-    subheader: 'general',
+    subheader: 'menu',
     items: [
       {
         title: 'home',
         path: PATH_DASHBOARD.general.app,
         icon: ICONS.dashboard
       },
-      { title: 'List posting penawaran', path: PATH_DASHBOARD.general.listPosting, icon: ICONS.cart },
+      { title: 'Offerslip', path: PATH_DASHBOARD.general.offerslip, icon: ICONS.cart },
+      { title: 'On Process Offerslip', path: PATH_DASHBOARD.general.offerslipOnprocess, icon: ICONS.booking },
+      { title: 'Insurance', path: PATH_DASHBOARD.general.offerslipOnprocess, icon: ICONS.banking },
       { title: 'chat', path: PATH_DASHBOARD.chat.root, icon: ICONS.chat }
     ]
   }

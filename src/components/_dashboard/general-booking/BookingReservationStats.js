@@ -56,7 +56,7 @@ export default function BookingReservationStats() {
   });
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader
         title="Reservation Stats"
         subheader="(+43% Check In | +12% Check Out) than last year"

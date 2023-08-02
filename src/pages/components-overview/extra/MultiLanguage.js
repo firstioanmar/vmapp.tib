@@ -64,7 +64,7 @@ export default function MultiLanguage() {
 
       <Container maxWidth="lg">
         <Stack spacing={5}>
-          <Card>
+          <Card variant="outlined">
             <CardHeader title="Flexible" />
             <Box sx={{ p: 3 }}>
               <RadioGroup row value={currentLang.value} onChange={(event) => onChangeLang(event.target.value)}>
@@ -81,7 +81,7 @@ export default function MultiLanguage() {
             </Box>
           </Card>
 
-          <Card>
+          <Card variant="outlined">
             <CardHeader title="System" sx={{ pb: 2 }} />
 
             <TablePagination

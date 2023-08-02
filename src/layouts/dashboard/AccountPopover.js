@@ -1,15 +1,11 @@
 import { Icon } from '@iconify/react';
 import { useSnackbar } from 'notistack5';
 import { useRef, useState } from 'react';
-import homeFill from '@iconify/icons-eva/home-fill';
-import settings2Fill from '@iconify/icons-eva/settings-2-fill';
 import closeFill from '@iconify/icons-eva/close-fill';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // material
 import { alpha } from '@material-ui/core/styles';
-import { Button, Box, Divider, MenuItem, Typography } from '@material-ui/core';
-// routes
-import { PATH_DASHBOARD } from '../../routes/paths';
+import { Button, Box, Divider, Typography } from '@material-ui/core';
 // hooks
 import useAuth from '../../hooks/useAuth';
 import useIsMountedRef from '../../hooks/useIsMountedRef';
@@ -20,18 +16,13 @@ import MenuPopover from '../../components/MenuPopover';
 
 // ----------------------------------------------------------------------
 
-const MENU_OPTIONS = [
-  {
-    label: 'Home',
-    icon: homeFill,
-    linkTo: '/'
-  },
-  {
-    label: 'Settings',
-    icon: settings2Fill,
-    linkTo: PATH_DASHBOARD.user.account
-  }
-];
+// const MENU_OPTIONS = [
+//   {
+//     label: 'Settings',
+//     icon: settings2Fill,
+//     linkTo: PATH_DASHBOARD.user.account
+//   }
+// ];
 
 // ----------------------------------------------------------------------
 
@@ -102,13 +93,13 @@ export default function AccountPopover() {
             {user.username}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {user.email}
+            {user.ins_id === 0 ? 'TIB' : 'Insurance'}
           </Typography>
         </Box>
 
         <Divider sx={{ my: 1 }} />
 
-        {MENU_OPTIONS.map((option) => (
+        {/* {MENU_OPTIONS.map((option) => (
           <MenuItem
             key={option.label}
             to={option.linkTo}
@@ -128,7 +119,7 @@ export default function AccountPopover() {
 
             {option.label}
           </MenuItem>
-        ))}
+        ))} */}
 
         <Box sx={{ p: 2, pt: 1.5 }}>
           <Button fullWidth color="inherit" variant="outlined" onClick={handleLogout}>

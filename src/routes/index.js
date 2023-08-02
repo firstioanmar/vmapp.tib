@@ -9,7 +9,6 @@ import AuthGuard from '../guards/AuthGuard';
 // import RoleBasedGuard from '../guards/RoleBasedGuard';
 // components
 import LoadingScreen from '../components/LoadingScreen';
-
 // ----------------------------------------------------------------------
 
 const Loadable = (Component) => (props) => {
@@ -88,15 +87,14 @@ export default function Router() {
         </AuthGuard>
       ),
       children: [
-        // Dashboard Routes
-        { path: '/', element: <Navigate to="/dashboard" replace /> },
         {
-          path: 'dashboard',
+          path: '/',
           children: [
-            { path: '/', element: <Navigate to="/dashboard/app" replace /> },
-            { path: 'app', element: <GeneralAnalytics /> },
-            { path: 'list/posting', element: <BlogPosts /> },
-            { path: 'detail/:detailId', element: <DetailPage /> },
+            { path: '/', element: <Navigate to="/dashboard" replace /> },
+            { path: 'dashboard', element: <GeneralAnalytics /> },
+            { path: 'offerslip/all', element: <Offerslip /> },
+            { path: 'offerslip/onprocess', element: <OnProcess /> },
+            { path: 'offerslip/detail/:reqIdReff', element: <DetailPage /> },
             { path: 'ecommerce', element: <GeneralEcommerce /> },
             { path: 'banking', element: <GeneralBanking /> },
             { path: 'booking', element: <GeneralBooking /> },
@@ -234,6 +232,8 @@ const ResetPassword = Loadable(lazy(() => import('../pages/authentication/ResetP
 const VerifyCode = Loadable(lazy(() => import('../pages/authentication/VerifyCode')));
 // Dashboard
 const DetailPage = Loadable(lazy(() => import('../pages/dashboard/DetailPage')));
+const Offerslip = Loadable(lazy(() => import('../pages/dashboard/Offerslip')));
+const OnProcess = Loadable(lazy(() => import('../pages/dashboard/OnProcess')));
 const GeneralEcommerce = Loadable(lazy(() => import('../pages/dashboard/GeneralEcommerce')));
 const GeneralAnalytics = Loadable(lazy(() => import('../pages/dashboard/GeneralAnalytics')));
 const GeneralBanking = Loadable(lazy(() => import('../pages/dashboard/GeneralBanking')));

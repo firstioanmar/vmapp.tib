@@ -116,7 +116,7 @@ export default function CarouselAnimation() {
   };
 
   return (
-    <Card>
+    <Card variant="outlined">
       <Slider ref={carouselRef} {...settings}>
         {MOCK_CAROUSELS.map((item, index) => (
           <CarouselItem key={item.title} item={item} isActive={index === currentIndex} />

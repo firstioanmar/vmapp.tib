@@ -138,7 +138,7 @@ export default function AnalyticsTasks() {
   const { values, handleSubmit } = formik;
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title="Tasks" />
       <Box sx={{ px: 3, py: 1 }}>
         <FormikProvider value={formik}>

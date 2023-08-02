@@ -44,7 +44,7 @@ function PostItem({ post }) {
 
   return (
     <Grid item xs={12} sm={6} md={3}>
-      <Card>
+      <Card variant="outlined">
         <Box sx={{ position: 'relative', paddingTop: 'calc(100% * 3 / 4)' }}>
           <SvgIconStyle
             color="paper"

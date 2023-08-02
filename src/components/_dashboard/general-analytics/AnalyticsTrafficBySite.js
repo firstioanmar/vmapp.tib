@@ -68,7 +68,7 @@ function SiteItem({ site }) {
 
 export default function AnalyticsTrafficBySite() {
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title="Traffic by Site" />
       <CardContent>
         <Grid container spacing={2}>

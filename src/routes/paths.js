@@ -6,6 +6,7 @@ function path(root, sublink) {
 
 const ROOTS_AUTH = '/auth';
 const ROOTS_DASHBOARD = '/dashboard';
+const ROOTS_OFFERSLIP = '/offerslip';
 
 // ----------------------------------------------------------------------
 
@@ -33,10 +34,12 @@ export const PATH_PAGE = {
 };
 
 export const PATH_DASHBOARD = {
-  root: ROOTS_DASHBOARD,
+  root: '/',
   general: {
-    app: path(ROOTS_DASHBOARD, '/app'),
-    listPosting: path(ROOTS_DASHBOARD, '/list/posting'),
+    app: '/dashboard',
+    offerslip: path(ROOTS_OFFERSLIP, '/all'),
+    offerslipOnprocess: path(ROOTS_OFFERSLIP, '/onprocess'),
+    offerslipDetail: path(ROOTS_OFFERSLIP, '/detail/:reqIdReff'),
     ecommerce: path(ROOTS_DASHBOARD, '/ecommerce'),
     analytics: path(ROOTS_DASHBOARD, '/analytics'),
     banking: path(ROOTS_DASHBOARD, '/banking'),
@@ -47,9 +50,9 @@ export const PATH_DASHBOARD = {
     all: path(ROOTS_DASHBOARD, '/mail/all')
   },
   chat: {
-    root: path(ROOTS_DASHBOARD, '/chat'),
-    new: path(ROOTS_DASHBOARD, '/chat/new'),
-    conversation: path(ROOTS_DASHBOARD, '/chat/:conversationKey')
+    root: '/chat',
+    new: path('/chat', '/new'),
+    conversation: path('/chat', '/:conversationKey')
   },
   calendar: path(ROOTS_DASHBOARD, '/calendar'),
   kanban: path(ROOTS_DASHBOARD, '/kanban'),
@@ -81,5 +84,3 @@ export const PATH_DASHBOARD = {
     newPost: path(ROOTS_DASHBOARD, '/blog/new-post')
   }
 };
-
-export const PATH_DOCS = 'https://docs-minimals.vercel.app/introduction';

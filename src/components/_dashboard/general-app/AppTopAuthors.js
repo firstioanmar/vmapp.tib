@@ -83,7 +83,7 @@ export default function AppTopAuthors() {
   const displayAuthor = orderBy(MOCK_AUTHORS, ['favourite'], ['desc']);
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title="Top Authors" />
       <Stack spacing={3} sx={{ p: 3 }}>
         {displayAuthor.map((author, index) => (

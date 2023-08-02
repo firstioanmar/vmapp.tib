@@ -57,7 +57,7 @@ function NewsItem({ news }) {
 
 export default function AnalyticsNewsUpdate() {
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title="News Update" />
 
       <Scrollbar>

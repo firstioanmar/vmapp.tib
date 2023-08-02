@@ -72,7 +72,7 @@ export default function ProfilePostCard({ post }) {
   };
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader
         disableTypography
         avatar={<MyAvatar />}

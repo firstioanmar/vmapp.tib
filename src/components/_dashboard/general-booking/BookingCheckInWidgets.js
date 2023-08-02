@@ -50,7 +50,7 @@ export default function BookingCheckInWidgets() {
   };
 
   return (
-    <Card>
+    <Card variant="outlined">
       <Stack
         direction={{ xs: 'column', sm: 'row' }}
         divider={<Divider orientation={isMobile ? 'horizontal' : 'vertical'} flexItem />}

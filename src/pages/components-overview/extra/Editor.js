@@ -48,7 +48,7 @@ export default function Editor() {
       <Container maxWidth="lg">
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
-            <Card>
+            <Card variant="outlined">
               <CardHeader title="Quill Editor Simple" />
               <CardContent>
                 <QuillEditor
@@ -79,7 +79,7 @@ export default function Editor() {
 
         <Grid container sx={{ mt: 3, mb: 5 }}>
           <Grid item xs={12} md={8}>
-            <Card>
+            <Card variant="outlined">
               <CardHeader title="Quill Editor Full" />
               <CardContent>
                 <QuillEditor id="full-editor" value={quillFull} onChange={(value) => setQuillFull(value)} />
@@ -90,7 +90,7 @@ export default function Editor() {
 
         <Grid container spacing={3} sx={{ mb: 3 }}>
           <Grid item xs={12} md={8}>
-            <Card>
+            <Card variant="outlined">
               <CardHeader title="Draft Editor Simple" />
               <CardContent>
                 <DraftEditor simple editorState={draftSimple} onEditorStateChange={(value) => setDraftSimple(value)} />
@@ -114,7 +114,7 @@ export default function Editor() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
-            <Card>
+            <Card variant="outlined">
               <CardHeader title="Draft Editor Full" />
               <CardContent>
                 <DraftEditor />

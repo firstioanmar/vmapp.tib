@@ -79,7 +79,7 @@ function CountryItem({ country }) {
 
 export default function AppTopInstalledCountries() {
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title="Top Installed Countries" />
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3 }}>

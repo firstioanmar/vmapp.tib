@@ -53,7 +53,7 @@ function ProgressItem({ progress }) {
 
 export default function EcommerceSalesOverview() {
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title="Sales Overview" />
       <Stack spacing={4} sx={{ p: 3 }}>
         {MOCK_SALES.map((progress) => (

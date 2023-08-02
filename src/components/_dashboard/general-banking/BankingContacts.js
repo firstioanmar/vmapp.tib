@@ -21,7 +21,7 @@ const MOCK_CONTACTS = [...Array(5)].map((_, index) => ({
 
 export default function BankingContacts() {
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader
         title="Contacts"
         subheader="You have 122 contacts"

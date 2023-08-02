@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
 // material
 import { Grid, Container, Typography, Card } from '@material-ui/core';
@@ -8,33 +7,8 @@ import circleToConfirmCircleTransition from '@iconify/icons-line-md/circle-to-co
 import formOutline from '@iconify/icons-mdi/form-outline';
 import outlineBusinessCenter from '@iconify/icons-ic/outline-business-center';
 import { alpha, styled } from '@material-ui/core/styles';
-import MaterialReactTable from 'material-react-table';
-import axios from 'axios';
 // components
 import Page from '../../components/Page';
-
-const columns = [
-  {
-    accessorKey: 'prospek_insd',
-    header: 'Client Name'
-  },
-  {
-    accessorKey: 'slip_no',
-    header: 'Slip No'
-  },
-  {
-    accessorKey: 'cob_code',
-    header: 'COB'
-  },
-  {
-    accessorKey: 'created_at',
-    header: 'Created At'
-  },
-  {
-    accessorKey: 'thkName',
-    header: 'Tehnik By'
-  }
-];
 
 const RootStyle = styled(Card)(({ theme }) => ({
   boxShadow: 'none',
@@ -63,22 +37,12 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function GeneralAnalytics() {
-  const navigate = useNavigate();
-  const [datatable, setDatatable] = useState([]);
-
-  useEffect(() => {
-    axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
-    axios.get('https://vm-service.tib.co.id/api/v1/getListData').then((response) => {
-      setDatatable(response.data.data);
-    });
-  }, []);
-
   return (
     <Page title="Dashboard | Virtual Market">
       <Container maxWidth="xl">
         <Grid container spacing={3}>
           <Grid item xs={12} sm={4} md={4}>
-            <RootStyle>
+            <RootStyle variant="outlined">
               <IconWrapperStyle>
                 <Icon icon={formOutline} width={24} height={24} />
               </IconWrapperStyle>
@@ -89,7 +53,7 @@ export default function GeneralAnalytics() {
             </RootStyle>
           </Grid>
           <Grid item xs={12} sm={4} md={4}>
-            <RootStyle>
+            <RootStyle variant="outlined">
               <IconWrapperStyle>
                 <Icon icon={circleToConfirmCircleTransition} width={24} height={24} />
               </IconWrapperStyle>
@@ -100,7 +64,7 @@ export default function GeneralAnalytics() {
             </RootStyle>
           </Grid>
           <Grid item xs={12} sm={4} md={4}>
-            <RootStyle>
+            <RootStyle variant="outlined">
               <IconWrapperStyle>
                 <Icon icon={outlineBusinessCenter} width={24} height={24} />
               </IconWrapperStyle>
@@ -109,24 +73,6 @@ export default function GeneralAnalytics() {
                 Total COB
               </Typography>
             </RootStyle>
-          </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={12} md={12}>
-            <MaterialReactTable
-              columns={columns}
-              data={datatable}
-              positionToolbarAlertBanner="bottom"
-              initialState={{ density: 'compact' }}
-              muiTableBodyRowProps={({ row }) => ({
-                onClick: () => {
-                  navigate(`/dashboard/detail/${row.original.id}`);
-                },
-                sx: {
-                  cursor: 'pointer'
-                }
-              })}
-            />
           </Grid>
         </Grid>
       </Container>

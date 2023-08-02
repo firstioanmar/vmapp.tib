@@ -169,7 +169,7 @@ export default function UserList() {
           }
         />
 
-        <Card>
+        <Card variant="outlined">
           <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
           <Scrollbar>

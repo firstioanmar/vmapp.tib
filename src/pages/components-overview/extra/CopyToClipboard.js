@@ -36,7 +36,7 @@ export default function CopyToClipboard() {
       </Box>
 
       <Container maxWidth="lg">
-        <Card>
+        <Card variant="outlined">
           <CardContent>
             <CopyClipboard value="https://www.npmjs.com/package/react-copy-to-clipboard" />
           </CardContent>

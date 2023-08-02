@@ -79,7 +79,7 @@ export default function BookingRoomAvailable() {
   });
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title="Room Available" sx={{ mb: 8 }} />
       <ReactApexChart type="radialBar" series={CHART_DATA} options={chartOptions} height={310} />
 

@@ -39,7 +39,7 @@ export default function AppAreaInstalled() {
   });
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader
         title="Area Installed"
         subheader="(+43%) than last year"

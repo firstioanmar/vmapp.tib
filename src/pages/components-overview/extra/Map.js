@@ -235,7 +235,7 @@ export default function Map() {
             </Grid>
 
             <Grid item xs={12}>
-              <Card>
+              <Card variant="outlined">
                 <CardHeader title="Map Heatmap" />
                 <CardContent>
                   <MapWrapperStyle>

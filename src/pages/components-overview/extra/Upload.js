@@ -97,7 +97,7 @@ export default function Upload() {
 
       <Container maxWidth="lg">
         <Stack spacing={5}>
-          <Card>
+          <Card variant="outlined">
             <CardHeader
               title="Upload Multi File"
               action={
@@ -118,14 +118,14 @@ export default function Upload() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card variant="outlined">
             <CardHeader title="Upload Single File" />
             <CardContent>
               <UploadSingleFile file={file} onDrop={handleDropSingleFile} />
             </CardContent>
           </Card>
 
-          <Card>
+          <Card variant="outlined">
             <CardHeader title="Upload Avatar" />
             <CardContent>
               <UploadAvatar

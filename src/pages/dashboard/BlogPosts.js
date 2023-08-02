@@ -5,13 +5,15 @@ import { useNavigate } from 'react-router-dom';
 import { Grid, Container } from '@material-ui/core';
 import MaterialReactTable from 'material-react-table';
 import axios from 'axios';
+import useAuth from '../../hooks/useAuth';
+
 // components
 import Page from '../../components/Page';
 
 const columns = [
   {
     accessorKey: 'prospek_insd',
-    header: 'Client Name'
+    header: 'Insured Name'
   },
   {
     accessorKey: 'slip_no',
@@ -22,27 +24,42 @@ const columns = [
     header: 'COB'
   },
   {
-    accessorKey: 'created_at',
-    header: 'Created At'
+    accessorKey: 'request_status',
+    header: 'Status'
   },
   {
-    accessorKey: 'thkName',
+    accessorKey: 'created_by',
     header: 'Tehnik By'
   }
 ];
 
-// ----------------------------------------------------------------------
-
 export default function BlogPosts() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [datatable, setDatatable] = useState([]);
 
   useEffect(() => {
-    axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
-    axios.get('https://vm-service.tib.co.id/api/v1/getListPosting').then((response) => {
-      setDatatable(response.data.data);
-    });
-  }, []);
+    const fetchData = async () => {
+      try {
+        const listData = await axios.get('https://vm-service.tib.co.id/api/placing/list-data', {
+          params: { type: 1 },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.access_token}`
+          }
+        });
+
+        const dataTable = await listData.data;
+        if (dataTable.status === 200) {
+          setDatatable(dataTable.message);
+        }
+      } catch (error) {
+        // Check for token expired error (example: HTTP 401 Unauthorized)
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [user]);
 
   return (
     <Page title="Dashboard | Virtual Market">
@@ -56,7 +73,7 @@ export default function BlogPosts() {
               initialState={{ density: 'compact' }}
               muiTableBodyRowProps={({ row }) => ({
                 onClick: () => {
-                  navigate(`/dashboard/detail/${row.original.id}`);
+                  navigate(`/offerslip/detail/${row.original.req_stat_id}`);
                 },
                 sx: {
                   cursor: 'pointer'

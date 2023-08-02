@@ -33,7 +33,7 @@ export default function ShopProductCard({ product }) {
   const linkTo = `${PATH_DASHBOARD.eCommerce.root}/product/${paramCase(name)}`;
 
   return (
-    <Card>
+    <Card variant="outlined">
       <Box sx={{ pt: '100%', position: 'relative' }}>
         {status && (
           <Label

@@ -88,7 +88,7 @@ function ApplicationItem({ app }) {
 
 export default function AppTopRelated() {
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title="Top Related Applications" />
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>

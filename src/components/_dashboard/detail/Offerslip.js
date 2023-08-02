@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
-import { capitalCase } from 'change-case';
+import { useState, useEffect } from 'react';
 // material
 import {
   Grid,
@@ -11,60 +10,84 @@ import {
   Typography,
   List,
   ListItem,
-  ListItemText,
-  Table,
-  TableBody,
-  TableRow,
-  TableCell,
-  Tabs,
-  Tab,
-  Box,
-  Stack
+  ListItemText
 } from '@material-ui/core';
 import { Icon } from '@iconify/react';
-import moment from 'moment-timezone';
-import useSettings from '../../../hooks/useSettings';
-import PremiTotal from './PremiTotal';
-import PremiDetail from './PremiDetail';
+import MaterialReactTable from 'material-react-table';
 
-export default function Offerslip({ rd, rate, si, premi }) {
-  const { themeMode } = useSettings();
-  const [currentTab, setCurrentTab] = useState('premi_total');
+const columns = [
+  {
+    accessorKey: 'type',
+    header: 'Type'
+  },
+  {
+    accessorKey: 'curr',
+    header: 'Currency'
+  },
+  {
+    accessorKey: 'amount',
+    header: 'Amount'
+  },
+  {
+    accessorKey: 'description',
+    header: 'Description'
+  }
+];
+
+const columnsRate = [
+  {
+    accessorKey: 'flexas_rate',
+    header: 'Flexas Rate'
+  },
+  {
+    accessorKey: 'rsmd_rate',
+    header: 'RSMD Rate'
+  },
+  {
+    accessorKey: 'cc_rate',
+    header: 'CC Rate'
+  },
+  {
+    accessorKey: 'tsfwd_rate',
+    header: 'TSFWD Rate'
+  },
+  {
+    accessorKey: 'others_rate',
+    header: 'Others Rate'
+  },
+  {
+    accessorKey: 'par_rate',
+    header: 'PAR Rate'
+  },
+  {
+    accessorKey: 'eq_rate',
+    header: 'EQ Rate'
+  }
+];
+
+export default function Offerslip({ data, sumInsured, tsi, rate }) {
   const [expandRiskDetail, setExpandRiskDetail] = useState(true);
-  const [expandRate, setExpandRate] = useState(true);
+  const [showSkeleton, setShowSkeleton] = useState(true);
 
-  console.log(premi);
-
-  const PREMI_TABS = [
-    {
-      value: 'premi_total',
-      icon: <Icon icon="material-symbols:border-all" width={20} height={20} />,
-      component: <PremiTotal premi={premi.premi_total} />
-    },
-    {
-      value: 'premi_detail',
-      icon: <Icon icon="material-symbols:read-more" width={20} height={20} />,
-      component: <PremiDetail />
-    }
-  ];
-
-  const handleChangeTab = (event, newValue) => {
-    setCurrentTab(newValue);
-  };
+  useEffect(() => {
+    setTimeout(() => {
+      setShowSkeleton(false);
+    }, 1500);
+  });
 
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={12}>
-        <Card sx={{ py: 5, px: 3, mb: 1, textAlign: 'center' }}>
+        <Card sx={{ py: 5, px: 3, mb: 1, textAlign: 'center' }} variant="outlined">
           <Typography variant="h3" style={{ textTransform: 'uppercase', marginBottom: 0 }} paragraph>
             Offer slip
           </Typography>
           <Typography variant="h3" style={{ textTransform: 'uppercase', marginBottom: 0 }} paragraph>
-            {rd.slip_no}
+            {data.sppaNo}
           </Typography>
         </Card>
 
-        <Card sx={{ py: 3, px: 3, mb: 1, textAlign: 'center' }}>
+        <Card sx={{ py: 3, px: 3, mb: 1, textAlign: 'center' }} variant="outlined">
           <CardHeader
             action={
               <IconButton onClick={() => setExpandRiskDetail(!expandRiskDetail)}>
@@ -80,14 +103,14 @@ export default function Offerslip({ rd, rate, si, premi }) {
           />
           <Collapse in={expandRiskDetail}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6} md={6}>
-                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+              <Grid item xs={12} sm={12} md={12}>
+                <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                   <ListItem alignItems="flex-start">
                     <ListItemText
                       primary="Type Of Cover"
                       secondary={
                         <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                          {rd.cob_desc}
+                          {data.typeCover}
                         </Typography>
                       }
                     />
@@ -97,7 +120,7 @@ export default function Offerslip({ rd, rate, si, premi }) {
                       primary="Insured Name"
                       secondary={
                         <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                          {rd.insd_name}
+                          {data.insured}
                         </Typography>
                       }
                     />
@@ -107,7 +130,7 @@ export default function Offerslip({ rd, rate, si, premi }) {
                       primary="Name In The Policy"
                       secondary={
                         <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                          {rd.polis_name}
+                          {data.polis_name}
                         </Typography>
                       }
                     />
@@ -117,17 +140,7 @@ export default function Offerslip({ rd, rate, si, premi }) {
                       primary="Insured Address"
                       secondary={
                         <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                          {rd.consignee_address}
-                        </Typography>
-                      }
-                    />
-                  </ListItem>
-                  <ListItem alignItems="flex-start">
-                    <ListItemText
-                      primary="Occupation Code"
-                      secondary={
-                        <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                          {rd.ocp_name}
+                          {data.address}
                         </Typography>
                       }
                     />
@@ -137,27 +150,7 @@ export default function Offerslip({ rd, rate, si, premi }) {
                       primary="Occupation Description"
                       secondary={
                         <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                          {rd.occupation}
-                        </Typography>
-                      }
-                    />
-                  </ListItem>
-                  <ListItem alignItems="flex-start">
-                    <ListItemText
-                      primary="Period"
-                      secondary={
-                        <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                          {moment(rd.start_date).format('DD-MM-YYYY')} to {moment(rd.end_date).format('DD-MM-YYYY')}
-                        </Typography>
-                      }
-                    />
-                  </ListItem>
-                  <ListItem alignItems="flex-start">
-                    <ListItemText
-                      primary="Insured Of Interest"
-                      secondary={
-                        <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                          {rd.interest_insured}
+                          {data.occupation}
                         </Typography>
                       }
                     />
@@ -167,79 +160,27 @@ export default function Offerslip({ rd, rate, si, premi }) {
                       primary="Risk Location"
                       secondary={
                         <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                          {rd.risk_location}
-                        </Typography>
-                      }
-                    />
-                  </ListItem>
-                </List>
-              </Grid>
-              <Grid item xs={12} sm={6} md={6}>
-                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                  <ListItem alignItems="flex-start">
-                    <ListItemText
-                      primary="Scope Of Cover"
-                      secondary={
-                        <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                          {rd.scope_cover}
+                          {data.riskLocation}
                         </Typography>
                       }
                     />
                   </ListItem>
                   <ListItem alignItems="flex-start">
                     <ListItemText
-                      primary="SUM Insured"
-                      secondary={si.map((sumInsured) => (
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary"
-                          key={sumInsured.id}
-                        >
-                          {sumInsured.type} {sumInsured.curr_code} {sumInsured.amount} <b>ket:</b>{' '}
-                          {sumInsured.descriptions}
-                          <br />
-                        </Typography>
-                      ))}
-                    />
-                  </ListItem>
-                  <ListItem alignItems="flex-start">
-                    <ListItemText
-                      primary="Total SUM Insured"
+                      primary="Period"
                       secondary={
                         <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                          {rd.cob_desc}
+                          {data.period}
                         </Typography>
                       }
                     />
                   </ListItem>
                   <ListItem alignItems="flex-start">
                     <ListItemText
-                      primary="Notes"
+                      primary="Insured Of Interest"
                       secondary={
                         <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                          {rd.notes}
-                        </Typography>
-                      }
-                    />
-                  </ListItem>
-                  <ListItem alignItems="flex-start">
-                    <ListItemText
-                      primary="Claim Experience & Premium Performance"
-                      secondary={
-                        <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                          {rd.notes}
-                        </Typography>
-                      }
-                    />
-                  </ListItem>
-                  <ListItem alignItems="flex-start">
-                    <ListItemText
-                      primary="Class Of Risk"
-                      secondary={
-                        <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                          {rd.notes}
+                          <div dangerouslySetInnerHTML={{ __html: data.interestInsured }} />
                         </Typography>
                       }
                     />
@@ -249,136 +190,112 @@ export default function Offerslip({ rd, rate, si, premi }) {
             </Grid>
           </Collapse>
         </Card>
-
-        <Card sx={{ py: 3, px: 3, textAlign: 'center' }}>
-          <CardHeader
-            action={
-              <IconButton onClick={() => setExpandRate(!expandRate)}>
-                <Icon
-                  icon={expandRate ? 'material-symbols:expand-less' : 'material-symbols:expand-more'}
-                  fontSize={30}
-                />
-              </IconButton>
-            }
-            titleTypographyProps={{ variant: 'h3' }}
-            title="Rate"
-            sx={{ mb: 2 }}
-          />
-          <Collapse in={expandRate}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6} md={6}>
-                <Table>
-                  <TableBody>
-                    {rate.flexas_rate != null ? (
-                      <TableRow>
-                        <TableCell component="th" scope="row">
-                          FLEXAS
-                        </TableCell>
-                        <TableCell align="right">
-                          {rate.flexas_rate.toLocaleString(undefined, { minimumFractionDigits: 2 })} %
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      false
-                    )}
-                    {rate.flag_rsmd === 0 ? (
-                      <TableRow>
-                        <TableCell component="th" scope="row">
-                          RSMDCC
-                        </TableCell>
-                        <TableCell align="right">{rate.rsmd_rate - rate.cc_rate} %</TableCell>
-                      </TableRow>
-                    ) : (
-                      <TableRow>
-                        <TableCell component="th" scope="row">
-                          RSMD
-                        </TableCell>
-                        <TableCell align="right">{rate.rsmd_rate} %</TableCell>
-                      </TableRow>
-                    )}
-                    {rate.tsfwd_rate != null ? (
-                      <TableRow>
-                        <TableCell component="th" scope="row">
-                          TSFWD
-                        </TableCell>
-                        <TableCell align="right">{rate.tsfwd_rate} %</TableCell>
-                      </TableRow>
-                    ) : (
-                      false
-                    )}
-                    {rate.others_rate != null ? (
-                      <TableRow>
-                        <TableCell component="th" scope="row">
-                          OTHERS
-                        </TableCell>
-                        <TableCell align="right">{rate.others_rate} %</TableCell>
-                      </TableRow>
-                    ) : (
-                      false
-                    )}
-                    <TableRow
-                      style={{
-                        backgroundColor: themeMode === 'dark' ? '#005249' : '#C8FACD'
-                      }}
-                    >
-                      <TableCell component="th" scope="row">
-                        Total
-                      </TableCell>
-                      <TableCell align="right">{rate.flexas_rate} %</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </Grid>
-              <Grid item xs={12} sm={6} md={6}>
-                <Table>
-                  <TableBody>
-                    {rate.eq_rate != null ? (
-                      <TableRow>
-                        <TableCell component="th" scope="row">
-                          EQ RATE
-                        </TableCell>
-                        <TableCell align="right">{rate.eq_rate} %</TableCell>
-                      </TableRow>
-                    ) : (
-                      false
-                    )}
-                    {rate.par_scale_rate != null ? (
-                      <TableRow>
-                        <TableCell component="th" scope="row  b ">
-                          PAR SCALE RATE
-                        </TableCell>
-                        <TableCell align="right">
-                          {rate.par_scale_rate.toLocaleString(undefined, { minimumFractionDigits: 2 })} %
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      false
-                    )}
-                  </TableBody>
-                </Table>
-              </Grid>
+        <Card sx={{ py: 3, px: 3, mb: 1, textAlign: 'center' }} variant="outlined">
+          <CardHeader titleTypographyProps={{ variant: 'h3' }} title="Sum Insured" sx={{ mb: 2 }} />
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12} md={12}>
+              <MaterialReactTable
+                columns={columns}
+                state={{ showSkeletons: showSkeleton }}
+                data={sumInsured}
+                enableColumnActions={false}
+                enableColumnFilters={false}
+                enablePagination={false}
+                enableSorting={false}
+                enableBottomToolbar={false}
+                enableTopToolbar={false}
+                initialState={{ density: 'compact' }}
+              />
             </Grid>
-          </Collapse>
+          </Grid>
         </Card>
-
-        <Stack spacing={5} sx={{ mt: 2 }}>
-          <Tabs
-            value={currentTab}
-            scrollButtons="auto"
-            variant="scrollable"
-            allowScrollButtonsMobile
-            onChange={handleChangeTab}
-          >
-            {PREMI_TABS.map((tab) => (
-              <Tab disableRipple key={tab.value} label={capitalCase(tab.value)} icon={tab.icon} value={tab.value} />
-            ))}
-          </Tabs>
-
-          {PREMI_TABS.map((tab) => {
-            const isMatched = tab.value === currentTab;
-            return isMatched && <Box key={tab.value}>{tab.component}</Box>;
-          })}
-        </Stack>
+        <Card sx={{ py: 3, px: 3, mb: 1, textAlign: 'center' }} variant="outlined">
+          <CardHeader titleTypographyProps={{ variant: 'h3' }} title="Sum Insured" sx={{ mb: 2 }} />
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12} md={12}>
+              <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+                <ListItem alignItems="flex-start">
+                  <ListItemText
+                    primary="Tsi"
+                    secondary={tsi.map((tsi, index) => (
+                      <Typography
+                        sx={{ display: 'inline' }}
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                        key={index}
+                      >
+                        {tsi.curr} - {tsi.amount}
+                      </Typography>
+                    ))}
+                  />
+                </ListItem>
+                <ListItem alignItems="flex-start">
+                  <ListItemText
+                    primary="Risk Of Covered"
+                    secondary={
+                      <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
+                        <div dangerouslySetInnerHTML={{ __html: data.riskCovered }} />
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem alignItems="flex-start">
+                  <ListItemText
+                    primary="Extension Of Covered"
+                    secondary={
+                      <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
+                        <div dangerouslySetInnerHTML={{ __html: data.extentionCover }} />
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem alignItems="flex-start">
+                  <ListItemText
+                    primary="Deductible"
+                    secondary={
+                      <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
+                        <div dangerouslySetInnerHTML={{ __html: data.deductible }} style={{ marginLeft: '30px' }} />
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem alignItems="flex-start">
+                  <ListItemText
+                    primary="Extension Clauses"
+                    secondary={
+                      <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
+                        <div
+                          dangerouslySetInnerHTML={{ __html: data.extentionClauses }}
+                          style={{ marginLeft: '30px' }}
+                        />
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              </List>
+            </Grid>
+          </Grid>
+        </Card>
+        <Card sx={{ py: 3, px: 3, mb: 1, textAlign: 'center' }} variant="outlined">
+          <CardHeader titleTypographyProps={{ variant: 'h3' }} title="Rate" sx={{ mb: 2 }} />
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12} md={12}>
+              <MaterialReactTable
+                columns={columnsRate}
+                state={{ showSkeletons: showSkeleton }}
+                data={rate}
+                enableColumnActions={false}
+                enableColumnFilters={false}
+                enablePagination={false}
+                enableSorting={false}
+                enableBottomToolbar={false}
+                enableTopToolbar={false}
+                initialState={{ density: 'compact' }}
+              />
+            </Grid>
+          </Grid>
+        </Card>
       </Grid>
     </Grid>
   );

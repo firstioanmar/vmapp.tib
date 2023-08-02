@@ -56,7 +56,7 @@ export default function BankingBalanceStatistics() {
   });
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader
         title="Balance Statistics"
         subheader="(+43% Income | +12% Expense) than last year"

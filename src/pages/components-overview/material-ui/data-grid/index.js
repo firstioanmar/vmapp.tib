@@ -41,14 +41,14 @@ export default function DataGridComponent() {
 
       <Container maxWidth="lg">
         <Stack spacing={5}>
-          <Card>
+          <Card variant="outlined">
             <CardHeader title="Basic" sx={{ mb: 2 }} />
             <Box sx={{ height: 390 }}>
               <DataGridBasic />
             </Box>
           </Card>
 
-          <Card>
+          <Card variant="outlined">
             <CardHeader title="Custom" sx={{ mb: 2 }} />
             <Box sx={{ height: 720 }}>
               <DataGridCustom />

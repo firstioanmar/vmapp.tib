@@ -57,21 +57,16 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     const initialize = async () => {
+      const user = JSON.parse(window.localStorage.getItem('userData'));
       try {
-        const accessToken = window.localStorage.getItem('accessToken');
-
-        if (accessToken && isValidToken(accessToken)) {
-          setSession(accessToken);
-          axios.get('https://vm-service.tib.co.id/api/v1/getUser').then((response) => {
-            const user = response.data.data;
-
-            dispatch({
-              type: 'INITIALIZE',
-              payload: {
-                isAuthenticated: true,
-                user
-              }
-            });
+        if (user && isValidToken(user.access_token)) {
+          setSession(user.access_token);
+          dispatch({
+            type: 'INITIALIZE',
+            payload: {
+              isAuthenticated: true,
+              user
+            }
           });
         } else {
           dispatch({
@@ -97,38 +92,32 @@ function AuthProvider({ children }) {
     initialize();
   }, []);
 
-  const login = async (email, password) => {
+  const login = async (username, password) => {
     const formData = new FormData();
 
-    formData.append('email', email);
+    formData.append('username', username);
     formData.append('password', password);
 
-    const response = await axios.post('https://vm-service.tib.co.id/api/loginUser', formData);
-    const accessToken = response.data.token;
+    const response = await axios.post('https://vm-service.tib.co.id/api/auth/login', formData);
+    const accessToken = response.data.access_token;
+    const user = response.data;
 
-    setSession(accessToken);
+    window.localStorage.setItem('userData', JSON.stringify(response.data));
 
     if (accessToken && isValidToken(accessToken)) {
-      axios.get('https://vm-service.tib.co.id/api/v1/getUser').then((response) => {
-        const user = response.data.data;
-
-        dispatch({
-          type: 'LOGIN',
-          payload: {
-            user
-          }
-        });
+      dispatch({
+        type: 'LOGIN',
+        payload: {
+          user
+        }
       });
     }
   };
 
   const logout = async () => {
-    const accessToken = window.localStorage.getItem('accessToken');
-    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-    axios
-      .get('https://vm-service.tib.co.id/api/logout')
-      .then(setSession(null))
-      .then(dispatch({ type: 'LOGOUT' }));
+    setSession(null);
+    localStorage.removeItem('userData');
+    dispatch({ type: 'LOGOUT' });
   };
 
   return (

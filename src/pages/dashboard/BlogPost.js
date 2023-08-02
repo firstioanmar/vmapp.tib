@@ -62,7 +62,7 @@ export default function BlogPost() {
         />
 
         {post && (
-          <Card>
+          <Card variant="outlined">
             <BlogPostHero post={post} />
 
             <Box sx={{ p: { xs: 3, md: 5 } }}>

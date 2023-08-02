@@ -40,7 +40,7 @@ export default function EcommerceYearlySales() {
   });
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader
         title="Yearly Sales"
         subheader="(+43%) than last year"

@@ -111,7 +111,7 @@ export default function EcommerceProductDetails() {
 
         {product && (
           <>
-            <Card>
+            <Card variant="outlined">
               <Grid container>
                 <Grid item xs={12} md={6} lg={7}>
                   <ProductDetailsCarousel />
@@ -138,7 +138,7 @@ export default function EcommerceProductDetails() {
               ))}
             </Grid>
 
-            <Card>
+            <Card variant="outlined">
               <TabContext value={value}>
                 <Box sx={{ px: 3, bgcolor: 'background.neutral' }}>
                   <TabList onChange={handleChangeTab}>

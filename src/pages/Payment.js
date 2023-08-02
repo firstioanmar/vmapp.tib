@@ -114,7 +114,7 @@ export default function Payment() {
           </Typography>
         </Box>
 
-        <Card>
+        <Card variant="outlined">
           <FormikProvider value={formik}>
             <Form noValidate autoComplete="off" onSubmit={formik.handleSubmit}>
               <Grid container spacing={upMd ? 5 : 2}>

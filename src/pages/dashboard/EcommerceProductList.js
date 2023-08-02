@@ -189,7 +189,7 @@ export default function EcommerceProductList() {
           }
         />
 
-        <Card>
+        <Card variant="outlined">
           <ProductListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
           <Scrollbar>

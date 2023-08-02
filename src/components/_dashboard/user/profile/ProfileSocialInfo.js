@@ -51,7 +51,7 @@ export default function ProfileSocialInfo({ profile }) {
   ];
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader title="Social" />
       <Stack spacing={2} sx={{ p: 3 }}>
         {SOCIALS.map((link) => (

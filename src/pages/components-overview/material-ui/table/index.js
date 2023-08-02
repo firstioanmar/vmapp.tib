@@ -41,21 +41,21 @@ export default function TableComponent() {
 
       <Container maxWidth="lg">
         <Stack spacing={5}>
-          <Card>
+          <Card variant="outlined">
             <CardHeader title="Basic Table" />
             <BasicTable />
           </Card>
 
-          <Card>
+          <Card variant="outlined">
             <SortingSelecting />
           </Card>
 
-          <Card>
+          <Card variant="outlined">
             <CardHeader title="Grouping & FixedHeader" />
             <GroupingFixedHeader />
           </Card>
 
-          <Card>
+          <Card variant="outlined">
             <CardHeader title="Collapsible Table" />
             <CollapsibleTable />
           </Card>
